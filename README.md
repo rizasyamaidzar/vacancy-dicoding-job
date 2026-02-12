@@ -61,7 +61,7 @@ php artisan storage:link
 
 # Jalankan server
 php artisan serve
-
+```
 ### 2. Setup Frontend (Next JS)
 Buka terminal Anda dan jalankan perintah berikut:
 ```bash
