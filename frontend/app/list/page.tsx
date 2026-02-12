@@ -20,12 +20,10 @@ export default function LowonganPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
-  // 1. Fetch data dari API saat mounted
   useEffect(() => {
     const fetchJobs = async () => {
       try {
         const response = await jobService.getAllJobs();
-        // Laravel biasanya membungkus data dalam response.data atau response.data.data
         setJobs(response.data.data || response.data);
       } catch (err) {
         console.error("Gagal mengambil lowongan:", err);

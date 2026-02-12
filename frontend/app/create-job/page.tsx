@@ -1,10 +1,37 @@
 "use client";
+import { jobService } from "@/services/JobService";
 import JobForm, { JobData } from "../components/JobForm";
+import { useRouter } from "next/navigation";
 
 export default function CreateJobPage() {
-  const handleCreate = (data: JobData) => {
-    console.log("Simpan data baru:", data);
-    // Panggil API POST disini
+  const router = useRouter();
+  const handleCreate = async (data: JobData) => {
+    try {
+      const payload = {
+        title: data.title,
+        position: data.position,
+        type: data.type,
+        candidates_needed: parseInt(data.candidates),
+        active_until: data.expiry,
+        location: data.location,
+        is_remote: data.isRemote,
+        description: data.description,
+        min_experience: data.experience,
+      };
+
+      const response = await jobService.createJob(payload);
+
+      if (response.status === 201 || response.status === 200) {
+        alert("Lowongan berhasil dibuat!");
+        router.push("/dashboard");
+        router.refresh();
+      }
+    } catch (err: any) {
+      console.error("Gagal membuat lowongan:", err);
+      alert(
+        err.response?.data?.message || "Terjadi kesalahan saat menyimpan data",
+      );
+    }
   };
   return (
     <>

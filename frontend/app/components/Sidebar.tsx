@@ -3,23 +3,37 @@ import React from "react";
 
 interface SidebarProps {
   isAdmin: boolean;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
 }
 
-export default function Sidebar({ isAdmin }: SidebarProps) {
+export default function Sidebar({
+  isAdmin,
+  activeTab,
+  onTabChange,
+}: SidebarProps) {
+  // Style Helper
+  const getLinkClass = (tabName: string) => {
+    const baseClass =
+      "flex items-center gap-3 px-8 py-4 font-medium cursor-pointer transition-all border-r-4";
+    return activeTab === tabName
+      ? `${baseClass} bg-[#F3F4F6] text-[#121212] font-semibold`
+      : `${baseClass} text-gray-500 hover:bg-gray-50 border-transparent`;
+  };
+
   return (
-    <aside className="w-64 border-r border-gray-100 hidden md:flex flex-col h-screen sticky top-0">
+    <aside className="w-64 border-r border-gray-100 hidden md:flex flex-col h-screen sticky top-0 ">
       <div className="p-8 pb-4">
-        <div className="flex items-center gap-4 relative">
-          <div className="absolute -top-6 left-20 w-24 h-24 opacity-80 pointer-events-none">
-            <img src="/pattern.svg" alt="" />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-700 z-10">Jobs</h1>
-        </div>
+        <h1 className="text-3xl font-bold text-gray-700">Jobs</h1>
       </div>
 
       <nav className="mt-8 space-y-1">
         {isAdmin ? (
-          <div className="bg-[#F3F4F6] flex items-center gap-3 px-8 py-4 text-[#121212] font-semibold border-r-4 border-blue-600">
+          /* MENU ADMIN */
+          <div
+            onClick={() => onTabChange("my-jobs")}
+            className={getLinkClass("my-jobs")}
+          >
             <svg
               width="20"
               height="20"
@@ -34,8 +48,12 @@ export default function Sidebar({ isAdmin }: SidebarProps) {
             <span>Lowongan Saya</span>
           </div>
         ) : (
+          /* MENU CANDIDATE */
           <>
-            <div className="flex items-center gap-3 px-8 py-4 text-gray-600 hover:bg-gray-50 font-medium cursor-pointer">
+            <div
+              onClick={() => onTabChange("saved")}
+              className={getLinkClass("saved")}
+            >
               <svg
                 width="20"
                 height="20"
@@ -48,7 +66,11 @@ export default function Sidebar({ isAdmin }: SidebarProps) {
               </svg>
               <span>Lowongan Tersimpan</span>
             </div>
-            <div className="flex items-center gap-3 px-8 py-4 text-gray-600 hover:bg-gray-50 font-medium cursor-pointer">
+
+            <div
+              onClick={() => onTabChange("applied")}
+              className={getLinkClass("applied")}
+            >
               <svg
                 width="20"
                 height="20"

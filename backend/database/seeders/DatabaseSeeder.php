@@ -32,5 +32,9 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
             'is_admin' => false,
         ]);
+
+        $this->call([
+            JobVacancySeeder::class,
+        ]);
     }
 }
